@@ -15,11 +15,11 @@ class FileStorage:
             return self.__objects
 
         else:
-            instance = {}
+            instances = {}
             for key, value in self.__objects.items():
                 if value.__class__ == cls:
-                    instance[key] = value
-        return instances
+                    instances[key] = value
+            return instances
 
     def new(self, obj):
         """Adds new object to storage dictionary"""
@@ -66,7 +66,7 @@ class FileStorage:
             obj ([type], optional): [description]. Defaults to None.
         """
         if obj is not None:
-            for key, val in self.__objects.items():
+            for key, value in self.__objects.items():
                 if value == obj:
                     del self.__objects[key]
                     break
