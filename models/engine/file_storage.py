@@ -66,7 +66,7 @@ class FileStorage:
             obj ([type], optional): [description]. Defaults to None.
         """
         if obj is not None:
-            for key, val in obj.items():
+            for key, val in self.__objects.items():
                 if value == obj:
                     del self.__objects[key]
                     break
