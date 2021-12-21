@@ -4,9 +4,11 @@ import datetime
 import json
 import os
 import unittest
-from unittest.case import skipif
+from unittest.case import skipIf
 from uuid import UUID
 
+from models import storage
+from models.amenity import Amenity
 from models.base_model import BaseModel
 
 
@@ -49,24 +51,18 @@ class test_basemodel(unittest.TestCase):
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
 
-    @skipif(
-        os.environment.get('HBNB_TYPE_STORAGE') != 'file',
-        "File storage test only"
+    @skipIf(
+        os.environ.get('HBNB_TYPE_STORAGE') != 'file',
+        "File storage tests only"
     )
-    def test_save(self):
-        """ Testing save """
+    def test_save_file(self):
+        """ Testing save using file storage"""
         i = self.value()
         i.save()
         key = self.name + "." + i.id
         with open('file.json', 'r') as f:
             j = json.load(f)
             self.assertEqual(j[key], i.to_dict())
-
-    def test_str(self):
-        """ """
-        i = self.value()
-        self.assertEqual(str(i), '[{}] ({}) {}'.format(self.name, i.id,
-                         i.__dict__))
 
     def test_todict(self):
         """ """
@@ -78,12 +74,6 @@ class test_basemodel(unittest.TestCase):
         """ """
         n = {None: None}
         with self.assertRaises(TypeError):
-            new = self.value(**n)
-
-    def test_kwargs_one(self):
-        """ """
-        n = {'Name': 'test'}
-        with self.assertRaises(KeyError):
             new = self.value(**n)
 
     def test_id(self):
@@ -103,3 +93,6 @@ class test_basemodel(unittest.TestCase):
         n = new.to_dict()
         new = BaseModel(**n)
         self.assertFalse(new.created_at == new.updated_at)
+
+    def __keyFromInstance(self, prmInstance):
+        return "{}.{}".format(prmInstance.__class__.__name__, prmInstance.id)

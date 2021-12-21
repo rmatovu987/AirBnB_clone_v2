@@ -1,10 +1,10 @@
 #!/usr/bin/python3
 """ """
 import os
-from unittest import skipIf
+from unittest.case import skipIf
 
-from tests.test_models.test_base_model import test_basemodel
 from models.state import State
+from tests.test_models.test_base_model import test_basemodel
 
 
 class test_state(test_basemodel):

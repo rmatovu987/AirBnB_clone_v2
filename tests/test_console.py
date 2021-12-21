@@ -1,7 +1,10 @@
 #!/usr/bin/python3
+
+
 import os
 import unittest
 from io import StringIO
+from os import system
 from unittest.mock import patch
 
 from console import HBNBCommand
@@ -17,10 +20,10 @@ class ConsoleCreateTest(unittest.TestCase):
     @classmethod
     def setUp(self):
         """
-        Function construct
+            function construct
         """
         try:
-            os.rename('file.json', 'tmp')
+            os.rename("file.json", "tmp")
         except IOError:
             pass
         FileStorage.__objects = {}
@@ -28,55 +31,54 @@ class ConsoleCreateTest(unittest.TestCase):
     @classmethod
     def tearDown(self):
         """
-        Function destruct
+            functionn destruct
         """
         try:
-            os.remove('file.json')
+            os.remove("file.json")
         except IOError:
             pass
-
         try:
-            os.rename('tmp', 'file.json')
+            os.rename("tmp", "file.json")
         except IOError:
             pass
 
     def testCreateMissingClass(self):
         """
-        create() missing class
+            create() missing class
         """
         with patch('sys.stdout', new=StringIO()) as output:
-            HBNBCommand().onecmd('create')
+            HBNBCommand().onecmd("create")
             self.assertEqual(output.getvalue(), "** class name missing **\n")
 
     def testInvalidClass(self):
         """
-        create() invalid class
+            create() invalid class
         """
         with patch('sys.stdout', new=StringIO()) as output:
-            HBNBCommand.onecmd('create toto')
+            HBNBCommand().onecmd("create toto")
             self.assertEqual(output.getvalue(), "** class doesn't exist **\n")
 
     @unittest.skipIf(
-        os.environ.get('HBNB_STORAGE_TYPE') != 'file',
+        os.environ.get('HBNB_TYPE_STORAGE') != 'file',
         "File storage tests only"
     )
     def testCreateInstance(self):
         """
-        create()
+            create()
         """
         for prmClassName in self.__classes:
             self.__testCreateObject(prmClassName)
 
     @unittest.skipIf(
-        os.environ.get('HBNB_STORAGE_TYPE') != 'file',
+        os.environ.get('HBNB_TYPE_STORAGE') != 'file',
         "File storage tests only"
     )
     def testCreateInstanceWithParameter(self):
         """
-        create()
+            create()
         """
         for prmClassName in self.__classes:
-            self.testCreateInstanceWithParameter(prmClassName)
+            self.__testCreateObjectWithParameter(prmClassName)
 
     @unittest.skipIf(
         os.environ.get('HBNB_TYPE_STORAGE') != 'file',
@@ -125,8 +127,8 @@ class ConsoleCreateTest(unittest.TestCase):
             create State name="California"
             create City name="San Francisco" state_id="JO9JOIJO..."
         """
-        from models.state import State
         from models.city import City
+        from models.state import State
 
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd(

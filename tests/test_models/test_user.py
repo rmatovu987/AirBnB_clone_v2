@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ """
 import os
-from unittest import skipIf
+from unittest.case import skipIf
 
 from models.user import User
 from tests.test_models.test_base_model import test_basemodel

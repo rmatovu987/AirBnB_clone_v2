@@ -1,14 +1,15 @@
 #!/usr/bin/python3
 """ """
 import os
-from unittest.case import skipif
+from unittest.case import skipIf
 
 from models.city import City
+from models.state import State
 from tests.test_models.test_base_model import test_basemodel
 
 
 class test_City(test_basemodel):
-    """ """
+    """class test City """
 
     def __init__(self, *args, **kwargs):
         """ """
