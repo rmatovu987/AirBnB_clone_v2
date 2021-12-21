@@ -1,11 +1,13 @@
 #!/usr/bin/python3
 """ """
-from models.base_model import BaseModel
-import unittest
 import datetime
-from uuid import UUID
 import json
 import os
+import unittest
+from unittest.case import skipif
+from uuid import UUID
+
+from models.base_model import BaseModel
 
 
 class test_basemodel(unittest.TestCase):
@@ -24,7 +26,7 @@ class test_basemodel(unittest.TestCase):
     def tearDown(self):
         try:
             os.remove('file.json')
-        except:
+        except Exception:
             pass
 
     def test_default(self):
@@ -47,6 +49,10 @@ class test_basemodel(unittest.TestCase):
         with self.assertRaises(TypeError):
             new = BaseModel(**copy)
 
+    @skipif(
+        os.environment.get('HBNB_TYPE_STORAGE') != 'file',
+        "File storage test only"
+    )
     def test_save(self):
         """ Testing save """
         i = self.value()
