@@ -59,7 +59,7 @@ class Place(BaseModel, Base):
                 amenity_ids that contains all Amenity.id linked to the Place.
             """
             from models import storage
-            
+
             amenities = []
             for amenity in storage.all(Amenity).values():
                 if amenity.id == self.amenity_ids:
