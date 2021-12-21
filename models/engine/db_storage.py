@@ -1,42 +1,42 @@
 #!/usr/bin/python3
+
 from os import getenv
 
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
-
 from models.amenity import Amenity
-from models.base_model import Base
+from models.base_model import Base, BaseModel
 from models.city import City
 from models.place import Place
 from models.review import Review
 from models.state import State
 from models.user import User
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
 
 
 class DBStorage:
-    """ """
+    """  """
 
     __engine = None
     __session = None
 
     def __init__(self):
-        """Initialize db connection"""
+        """ Initialize the connection to the database """
 
         db_conn = {
-            'dialect': 'mysql',
-            'driver': 'mysqldb',
-            'host': getenv('HBNB_MYSQL_HOST'),
-            'port': 3306,
-            'user': getenv('HBNB_MYSQL_USER'),
-            'pass': getenv('HBNB_MYSQL_PWD'),
-            'db': getenv('HBNB_MYSQL_DB')
+            "dialect": "mysql",
+            "driver": "mysqldb",
+            "host": getenv("HBNB_MYSQL_HOST"),
+            "port": 3306,
+            "user": getenv("HBNB_MYSQL_USER"),
+            "pass": getenv("HBNB_MYSQL_PWD"),
+            "db": getenv("HBNB_MYSQL_DB")
         }
         conn_format = '{dialect}+{driver}://{user}:{pass}@{host}:{port}/{db}'
 
         self.__engine = create_engine(
-            conn_format.format(**db_conn), pool_pre_ping=True)
+                conn_format.format(**db_conn), pool_pre_ping=True)
 
-        if getenv('HBNB_ENV') == 'test':
+        if getenv("HBNB_ENV") == "test":
             Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
