@@ -40,4 +40,5 @@ server_config=\
 }"
 
 echo "$server_config" > /etc/nginx/sites-enabled/default
+sudo ln -sf '/etc/nginx/sites-available/default' '/etc/nginx/sites-enabled/default'
 sudo service nginx restart
