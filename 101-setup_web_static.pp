@@ -11,10 +11,10 @@ exec {'install nginx':
 }
 
 # allow HTTP in Nginx
-exec {'allow HTTP':
-  command  => "sudo ufw allow 'Nginx HTTP'",
-  provider => shell,
-}
+# exec {'allow HTTP':
+#  command  => "sudo ufw allow 'Nginx HTTP'",
+#  provider => shell,
+# }
 
 # create the path /data/web_static/releases/test/
 exec {'mkdir /test':
@@ -34,26 +34,26 @@ exec {'create index.html':
   provider => shell,
 }
 
+# change owner of folder /date recursively
+exec {'chown-data':
+  command  => 'sudo chown -hR ubuntu:ubuntu /data; sudo chown -hR ubuntu:ubuntu /data/web_static/',
+  provider => shell,
+}
+
 # link /current to /test
 exec {'link /current ot /test':
   command  => 'sudo ln -sf /data/web_static/releases/test /data/web_static/current',
   provider => shell,
 }
 
-# change owner of folder /date recursively
-exec {'chown /data recursively':
-  command  => 'sudo chown -hR ubuntu:ubuntu /data',
-  provider => shell,
-}
-
 # add /hbnb_static location to nginx config
 exec {'add new location /hbnb_static':
-  command  => "sudo sed -i '38i\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n' /etc/nginx/sites-available/default",
+  command  => 'sudo sed -i "38i\ \\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n" /etc/nginx/sites-available/default',
   provider => shell,
 }
 
 # link sites-enabled/default to sites-available/default
-exec {'link /current ot /test':
+exec {'link sites enabled to available':
   command  => 'sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default',
   provider => shell,
 }
