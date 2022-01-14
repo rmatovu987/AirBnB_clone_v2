@@ -6,8 +6,7 @@ ufw allow 'Nginx HTTP'
 sudo mkdir -p /data/web_static/releases/test
 sudo mkdir -p /data/web_static/shared
 body=\
-"
-<html>
+"<html>
   <head>
   </head>
   <body>
