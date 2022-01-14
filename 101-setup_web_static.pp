@@ -48,13 +48,25 @@ exec {'link /current ot /test':
 
 # add /hbnb_static location to nginx config
 exec {'add new location /hbnb_static':
-  command  => 'sudo sed -i "38i\ \\\tlocation /hbnb_static/ {\n\t\talias /data/web_static/current/;\n\t}\n" /etc/nginx/sites-available/default',
-  provider => shell,
-}
-
-# link sites-enabled/default to sites-available/default
-exec {'link sites enabled to available':
-  command  => 'sudo ln -sf /etc/nginx/sites-available/default /etc/nginx/sites-enabled/default',
+  command  => 'echo "'server {
+	listen 80 default_server;
+	listen [::]:80 default_server;	
+	server_name _;
+	location / {
+		root /var/www/html;
+        index index.html index.htm index.nginx-debian.html;
+	}
+    location /hbnb_static/ {
+		alias /data/web_static/current/;
+        index index.htm index.html;
+        autoindex off;
+	}
+	error_page 404 /404.html;
+	location = /404.html {
+        root /var/www/html;
+		internal;
+	}
+}'" > /etc/nginx/sites-enabled/default',
   provider => shell,
 }
 
