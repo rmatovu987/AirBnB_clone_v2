@@ -5,8 +5,7 @@ sudo apt-get -y install nginx
 ufw allow 'Nginx HTTP'
 sudo mkdir -p /data/web_static/releases/test
 sudo mkdir -p /data/web_static/shared
-body=\
-"<html>
+body="<html>
   <head>
   </head>
   <body>
@@ -17,8 +16,7 @@ body=\
 echo "$body" > /data/web_static/releases/test/index.html
 ln -sf /data/web_static/releases/test/ /data/web_static/current
 chown -R ubuntu:ubuntu /data/
-server_config=\
-"server {
+server_config="server {
 	listen 80 default_server;
 	listen [::]:80 default_server;	
 	server_name _;
