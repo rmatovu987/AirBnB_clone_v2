@@ -66,5 +66,7 @@ class FileStorage:
                     break
 
     def close(self):
-        """Call the reload method"""
+        """
+        Call the reload method
+        """
         self.reload()
